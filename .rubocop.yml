@@ -1,0 +1,411 @@
+inherit_from:
+  - .rubocop_todo.yml
+  - .rubocop_thoughtbot.yml
+
+# Reference: https://docs.rubocop.org/en/latest/
+#
+
+require:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+  Exclude:
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'spec/fixtures/**/*'
+    - 'lib/generators/**/*.rb'
+    - 'db/migrate/*.rb'
+    - 'db/schema.rb'
+    - 'bin/**/*'
+
+Bundler/OrderedGems:
+  Exclude:
+    - 'Gemfile'
+
+Layout/LineLength:
+  Enabled: true
+  Exclude:
+    - 'db/seeds.rb'
+    - 'config/schedule.rb'
+    - 'config/sitemap.rb'
+    - 'config/routes/*.rb'
+    - 'config/initializers/intercom.rb'
+    - 'spec/features/analysis/**/*'
+  Max: 100
+  IgnoredPatterns: ['(\A|\s)#']
+
+Metrics/PerceivedComplexity:
+  Description: A complexity metric geared towards measuring complexity for a human reader.
+  Enabled: true
+
+Metrics/ParameterLists:
+  Description: Avoid parameter lists longer than three or four parameters.
+  StyleGuide: https://github.com/rubocop-hq/ruby-style-guide#too-many-params
+  Enabled: true
+  Max: 5
+  CountKeywordArgs: true
+
+Security/Open:
+  Enabled: false
+
+Security/JSONLoad:
+  Enabled: false
+
+Security/MarshalLoad:
+  Enabled: false
+
+Security/YAMLLoad:
+  Enabled: false
+
+# Priority: high
+Lint/UnusedMethodArgument:
+  AllowUnusedKeywordArguments: false
+  IgnoreEmptyMethods: true
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+
+Style/IdenticalConditionalBranches:
+  Enabled: true
+
+Layout/ArgumentAlignment:
+  Enabled: true
+  EnforcedStyle: with_fixed_indentation
+
+Layout/ArrayAlignment:
+  Enabled: true
+
+Layout/HashAlignment:
+  EnforcedHashRocketStyle:
+    - key
+    - table
+  EnforcedColonStyle:
+    - key
+    - table
+  Enabled: true
+
+Layout/ParameterAlignment:
+  Enabled: false
+
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: either
+
+Layout/EmptyLines:
+  Description: Don't use several empty lines in a row.
+  Enabled: true
+
+Layout/EmptyLinesAroundBlockBody:
+  Description: Keeps track of empty lines around block bodies.
+  Enabled: true
+  EnforcedStyle: no_empty_lines
+  SupportedStyles:
+  - empty_lines
+  - no_empty_lines
+
+Layout/EmptyLinesAroundClassBody:
+  EnforcedStyle: no_empty_lines
+  Enabled: true
+
+# Supports --auto-correct
+Layout/EmptyLinesAroundModuleBody:
+  Description: Keeps track of empty lines around module bodies.
+  Enabled: true
+  EnforcedStyle: no_empty_lines
+  SupportedStyles:
+  - empty_lines
+  - no_empty_lines
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: true
+
+Layout/EmptyLinesAroundMethodBody:
+  Enabled: true
+
+Layout/ConditionPosition:
+  Enabled: true
+
+Layout/DefEndAlignment:
+  EnforcedStyleAlignWith: def
+
+Layout/DotPosition:
+  EnforcedStyle: leading
+
+Layout/ElseAlignment:
+  Enabled: true
+
+Layout/EmptyLineAfterMagicComment:
+  Enabled: true
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: true
+
+Layout/MultilineOperationIndentation:
+  Enabled: true
+
+Layout/MultilineMethodCallIndentation:
+  Description: >-
+                 Checks indentation of method calls with the dot operator
+                 that span more than one line.
+  Enabled: true
+  EnforcedStyle: indented_relative_to_receiver
+  Exclude:
+    - 'spec/**/*'
+
+Layout/SpaceInLambdaLiteral:
+  Enabled: true
+  EnforcedStyle: require_space
+
+# 已確認
+Rails:
+  Enabled: true
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  CountComments: false
+  Max: 25
+  IgnoredMethods: []
+  Exclude:
+    - 'config/routes/*.rb'
+    - 'config/environments/*.rb'
+    - 'config/sitemap.rb'
+    - 'config/initializers/inflections.rb'
+    - 'spec/**/*'
+
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Style/TrivialAccessors:
+  Description: 'Prefer attr_* methods to trivial readers/writers.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#attr_family'
+  AllowPredicates: true
+
+# Supports --auto-correct
+Style/RedundantCapitalW:
+  Description: Checks for %W when interpolation is not needed.
+  Enabled: false
+
+Style/RedundantCondition:
+  Enabled: false
+
+# Supports --auto-correct
+Style/RedundantInterpolation:
+  Description: Checks for strings that are just an interpolated expression.
+  Enabled: false
+
+# Supports --auto-correct
+Style/RedundantPercentQ:
+  Description: Checks for %q/%Q when single quotes or double quotes would do.
+  StyleGuide: https://github.com/rubocop-hq/ruby-style-guide#percent-q
+  Enabled: false
+
+Style/UnpackFirst:
+  Enabled: false
+
+# Supports --auto-correct
+Style/VariableInterpolation:
+  Description: Don't interpolate global, instance and class variables directly in strings.
+  StyleGuide: https://github.com/rubocop-hq/ruby-style-guide#curlies-interpolate
+  Enabled: false
+
+# Supports --auto-correct
+Style/WhenThen:
+  Description: Use when x then ... for one-line cases.
+  StyleGuide: https://github.com/rubocop-hq/ruby-style-guide#one-line-cases
+
+# This thing seems a little error prone, and is kind of annoying. Let's
+# leave this up to the individual.(by Airbnb)
+Style/GuardClause:
+  Enabled: false
+
+Style/FormatStringToken:
+  IgnoredMethods:
+    - redirect
+
+Rails/Date:
+  Enabled: true
+  EnforcedStyle: strict
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: true
+
+Rails/UnknownEnv:
+  Environments:
+    - production
+    - staging
+    - development
+    - test
+
+# 使用 squish 會導致不預期的 sql 執行
+# 可參考 PR #1416
+Rails/SquishedSQLHeredocs:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Layout/SpaceAfterComma:
+  Enabled: true
+
+Style/RedundantSelf:
+  Enabled: true
+
+Style/RedundantReturn:
+  Enabled: true
+
+Rails/PluralizationGrammar:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: no_comma
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: no_comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: no_comma
+
+Style/AndOr:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Naming/PredicateName:
+  ForbiddenPrefixes:
+    - is_
+  AllowedMethods:
+    - is_admin?
+    - is_admin_of?
+    - is_vip_of?
+    - is_tweet_already_liked?
+    - is_tweet_already_collected?
+
+Naming/MethodParameterName:
+  MinNameLength: 2
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Style/ZeroLengthPredicate:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: true
+
+Style/UnlessElse:
+  Enabled: true
+
+Style/NegatedIf:
+  Enabled: false
+
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+
+# 待討論
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - app/model/*
+    - app/controller/*
+  Enabled: false
+
+Metrics/MethodLength:
+  Description: 'Avoid methods longer than 10 lines of code.'
+  StyleGuide: 'https://github.com/bbatsov/ruby-style-guide#short-methods'
+  Max: 30
+  Exclude:
+    - 'config/routes/*.rb'
+
+Layout/ClassStructure:
+  Enabled: true
+  Categories:
+    associations:
+      - has_many
+      - has_one
+      - belongs_to
+    validations:
+      - validates
+      - validate
+    callbacks:
+      - before_validation
+      - after_validation
+      - before_save
+      - before_create
+      - after_save
+      - after_create
+      - after_commit
+  ExpectedOrder:
+    - module_inclusion
+    - default_scope
+    - callbacks
+    - enum
+    - store_accessor
+    - associations
+    - validations
+    - scope
+    - public_class_methods
+    - initializer
+    - public_methods
+    - protected_methods
+    - private_methods
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/EmptyElse:
+  EnforcedStyle: empty
+
+Style/CollectionMethods:
+  Enabled: false
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+# 覺得預設值太少，憑感覺把數值調大一些
+RSpec/ExampleLength:
+  Max: 30
+  Exclude:
+    - 'spec/features/analysis/**/*'
+
+# 覺得預設值太少，憑感覺把數值調大一些
+RSpec/NestedGroups:
+  Max: 4
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+RSpec/HookArgument:
+  EnforcedStyle: each
+
+Style/OptionalBooleanParameter:
+  AllowedMethods: ['perform']
