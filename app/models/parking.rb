@@ -22,12 +22,33 @@ class Parking < ApplicationRecord
 
   def calculate_amount
     # 如果有開始時間和結束時間，則可以計算價格
+    factor = user.present? ? 50 : 100
     if amount.blank? && start_at.present? && end_at.present?
       self.amount = if duration <= 60
                       200
                     else
-                      200 + (((duration - 60).to_f / 30).ceil * 100)
+                      200 + (((duration - 60).to_f / 30).ceil * factor)
                     end
     end
+  end
+
+  def calculate_guest_term_amount
+    self.amount = if duration <= 60
+                    200
+                  else
+                    200 + (((duration - 60).to_f / 30).ceil * 100)
+                  end
+  end
+
+  def calculate_short_term_amount
+    self.amount = if duration <= 60
+                    200
+                  else
+                    200 + (((duration - 60).to_f / 30).ceil * 50)
+                  end
+  end
+
+  def calculate_long_term_amount
+    # TODO
   end
 end
