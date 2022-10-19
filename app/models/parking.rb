@@ -22,6 +22,9 @@ class Parking < ApplicationRecord
 
   def calculate_amount
     # 如果有開始時間和結束時間，則可以計算價格
+    # puts "----"
+    # puts parking_type
+    # puts "----"
     factor = user.present? ? 50 : 100
     if amount.blank? && start_at.present? && end_at.present?
       self.amount = if duration <= 60
