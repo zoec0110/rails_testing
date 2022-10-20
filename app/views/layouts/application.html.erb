@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+	<head>
     <title>ParkingApp</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -8,9 +8,23 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-  </head>
+	</head>
 
-  <body>
-    <%= yield %>
-  </body>
+	<body>
+	<%= yield %>
+	<% if flash[:notice] %>
+		<%= flash[:notice] %>
+	<% end %>
+	<% if flash[:alert] %>
+    	<%= flash[:alert] %>
+	<% end %>
+
+	<% if current_user %>
+    	<%= button_to('登出', destroy_user_session_path, :method => :delete) %>
+    	<%= link_to('修改密碼', edit_registration_path(:user)) %>
+  	<% else %>
+    	<%= link_to('註冊', new_registration_path(:user)) %> |
+    	<%= link_to('登入', new_session_path(:user)) %>
+   	<% end %>
+  	</body>
 </html>

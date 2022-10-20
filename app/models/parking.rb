@@ -2,6 +2,7 @@ class Parking < ApplicationRecord
   validates_presence_of :parking_type, :start_at
   validates_inclusion_of :parking_type, in: ["guest", "short-term", "long-term"]
 
+  belongs_to :user, optional: true
   validate :validate_end_at_with_amount
 
   def validate_end_at_with_amount
@@ -19,14 +20,50 @@ class Parking < ApplicationRecord
     (end_at - start_at) / 60
   end
 
+  # def calculate_amount
+  #   # 如果有開始時間和結束時間，則可以計算價格
+  #   # puts "----"
+  #   # puts parking_type
+  #   # puts "----"
+  #   factor = user.present? ? 50 : 100
+  #   if amount.blank? && start_at.present? && end_at.present?
+  #     self.amount = if duration <= 60
+  #                     200
+  #                   else
+  #                     200 + (((duration - 60).to_f / 30).ceil * factor)
+  #                   end
+  #   end
+  # end
+
   def calculate_amount
-    # 如果有開始時間和結束時間，則可以計算價格
     if amount.blank? && start_at.present? && end_at.present?
-      self.amount = if duration <= 60
-                      200
-                    else
-                      200 + (((duration - 60).to_f / 30).ceil * 100)
-                    end
+      if user.blank?
+        self.amount = calculate_guest_term_amount # 一般費率
+      elsif parking_type == "long-term"
+        self.amount = calculate_long_term_amount # 長期費率
+      elsif parking_type == "short-term"
+        self.amount = calculate_short_term_amount # 短期費率
+      end
     end
+  end
+
+  def calculate_guest_term_amount
+    self.amount = if duration <= 60
+                    200
+                  else
+                    200 + (((duration - 60).to_f / 30).ceil * 100)
+                  end
+  end
+
+  def calculate_short_term_amount
+    self.amount = if duration <= 60
+                    200
+                  else
+                    200 + (((duration - 60).to_f / 30).ceil * 50)
+                  end
+  end
+
+  def calculate_long_term_amount
+    # TODO
   end
 end
